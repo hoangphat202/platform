@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { Badge, Toggle } from "@/shared/components";
 import CooldownTimer from "./CooldownTimer";
 
-export default function ConnectionRow({ connection, proxyPools, apiKeys, isOAuth, isFirst, isLast, onMoveUp, onMoveDown, onToggleActive, onUpdateProxy, onUpdateApiKeys, onEdit, onDelete }) {
+export default function ConnectionRow({ connection, proxyPools, apiKeys, isOAuth, isFirst, isLast, onMoveUp, onMoveDown, onToggleActive, onUpdateProxy, onUpdateApiKeys, onEdit, onDelete, oneByOneStatus }) {
   const [showProxyDropdown, setShowProxyDropdown] = useState(false);
   const [showApiKeyDropdown, setShowApiKeyDropdown] = useState(false);
   const [updatingProxy, setUpdatingProxy] = useState(false);
@@ -110,6 +110,9 @@ export default function ConnectionRow({ connection, proxyPools, apiKeys, isOAuth
   };
 
   const isEmail = (v) => typeof v === "string" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  const isOAuthConnection = !!isOAuth;
+  const authLabel = isOAuthConnection ? "OAuth" : "API Key";
+  const authIcon = isOAuthConnection ? "lock" : "vpn_key";
   const displayName = isOAuthConnection
     ? (isEmail(connection.email) ? connection.email : (isEmail(connection.name) ? connection.name : (connection.name || connection.email || connection.displayName || "OAuth Account")))
     : (connection.name || connection.email || connection.displayName || "API Key");
